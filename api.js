@@ -7,10 +7,15 @@ const port = 3000;
 
 
 
- api.set('views engine', 'ejs');
+ api.set('view engine', 'ejs');
+ api.set('views',__dirname + '/views');
  api.use(express.urlencoded({ extended: true }));
 
  api.use('/Produto', produtoRouter);
+
+ api.get('/', (req, res) => {
+   res.render('index', { title: 'Bem-vindo ao sistema de produtos' });
+ });
  
  sequelize.sync()
       .then(() => {

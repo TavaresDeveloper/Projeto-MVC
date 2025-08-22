@@ -16,6 +16,17 @@ const port = 3000;
  api.get('/', (req, res) => {
    res.render('index', { title: 'Bem-vindo ao sistema de produtos' });
  });
+
+
+ api.post('/Produto', async (req, res) => {
+   try {
+     const { nome, preco, descricao } = req.body;
+     await Produto.create({ nome, preco, descricao });
+     res.redirect('/Produto');
+   } catch (error) {
+     res.status(500).send('Erro ao criar produto: ' + error.message);
+   }
+ });
  
  sequelize.sync()
       .then(() => {

@@ -20,7 +20,7 @@ module.exports = {
                 ProdutoQTD,
                 ProdutoPreco
             });
-            res.redirect("/");
+            res.redirect("/Produto");
         } catch (error) {
             console.error("Erro ao criar produto:", error);
             res.status(500).send("Erro ao criar produto");

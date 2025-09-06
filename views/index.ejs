@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
+     <meta charset="UTF-8">
     <title>Produtos</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
     <h1>Lista de Produtos</h1>
     
+      <ul>
+        <% produtos.forEach(produto => { %>
+      <li>
+        <%= produto.nome %> - R$ <%= produto.preco %>
+        <% if (produto.imagem) { %>
+          <br>
+          <img src="/uploads/<%= produto.imagem %>" width="100">
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+ </header>
 
+    
     <h2>Adicionar Produto</h2>
     <form action="/Produto/add" method="POST">
+        <label for = "ProdutoNome">Nome:</label>
         <input type="text" name="ProdutoNome" placeholder="Nome" required>
+        <br>
+        <label for = "ProdutoQTD">Quantidade:</label>
         <input type="number" name="ProdutoQTD" placeholder="Quantidade" required>
+        <br>
+        <label for = "ProdutoPreco">Preço:</label>
         <input type="number" step="0.01" name="ProdutoPreco" placeholder="Preço" required>
+        <br>
+        <label for="ProdutoImagem">Imagem: </label>
+        <input type="image" name="ProdutoImagem" placeholder="Imagem URL" accept="image/*">
         <button type="submit">Adicionar</button>
     </form>
 </body>

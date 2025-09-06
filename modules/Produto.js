@@ -21,8 +21,11 @@ const Produto = sequelize.define('Produto', {
     ProdutoPreco: {
         type: DataTypes.FLOAT,
         allowNull: false,
+    },
+    ProdutoImagem: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
-
 });
 
 module.exports = Produto;

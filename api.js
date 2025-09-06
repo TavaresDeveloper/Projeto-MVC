@@ -14,7 +14,10 @@ const port = 3000;
  api.use('/Produto', produtoRouter);
 
  api.get('/', (req, res) => {
-   res.render('index', { title: 'Bem-vindo ao sistema de produtos' });
+  Produto.findAll().then(produtos => {
+    res.render('index', { title: 'Lista de Produtos', produtos: produtos });
+  });
+  
  });
 
 

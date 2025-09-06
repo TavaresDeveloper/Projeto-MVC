@@ -14,11 +14,15 @@ module.exports = {
 
     criarProduto: async (req, res) => {
         try {
-            const { ProdutoNome, ProdutoQTD, ProdutoPreco } = req.body; 
+            const { ProdutoNome, ProdutoQTD, ProdutoPreco, ProdutoImagem } = req.body;
+            if(req.file) {
+                ProdutoImagem = req.file.filename; 
+            }
             await Produto.create({
                 ProdutoNome,
                 ProdutoQTD,
-                ProdutoPreco
+                ProdutoPreco,
+                ProdutoImagem
             });
             res.redirect("/Produto");
         } catch (error) {

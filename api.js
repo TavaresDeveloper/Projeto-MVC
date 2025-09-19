@@ -3,6 +3,7 @@ const api = express();
 const produtoRouter = require('./routes/produtoRoutes.js');
 const sequelize = require('./config/database.js');
 const Produto = require('./modules/Produto.js');
+const path = require('path');
 const port = 3000;
 
 
@@ -12,6 +13,8 @@ const port = 3000;
  api.use(express.urlencoded({ extended: true }));
  api.use(express.json());
  api.use('/Produto', produtoRouter);
+ api.use('/public', express.static(path.join(__dirname, 'public')));
+
 
  api.get('/', (req, res) => {
   Produto.findAll().then(produtos => {

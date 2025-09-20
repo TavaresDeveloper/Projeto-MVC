@@ -6,23 +6,46 @@
     <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
-    <header>
+   
     <h1>Lista de Produtos</h1>
     
-      <ul>
+    <ul>
         <% produtos.forEach(produto => { %>
       <li>
-        <%= produto.nome %> - R$ <%= produto.preco %>
-        <% if (produto.imagem) { %>
+        <%= produto.ProdutoNome %> - R$ <%= produto.ProdutoPreco %> - Qtd: <%= produto.ProdutoQTD %>
+        <% if (produto.Pr) { %>
           <br>
-          <img src="/uploads/<%= produto.imagem %>" width="100">
+          <img src="/uploads/<%= produto.imagem %>" width="30">
         <% } %>
-      </li>
-    <% }) %>
-  </ul>
- </header>
+        <div class="produto">
+      <button class="btn-excluir" data-id="<%= produto.produtoID %>">Excluir</button>
+        </div>
 
-    <section>
+        <script>
+          document.querySelector('.btn-excluir[data-id="<%= produto.produtoID %>"]').addEventListener('click', function() {
+            const produtoID = this.getAttribute('data-id');
+            const confirmacao = confirm('Tem certeza que deseja excluir este produto?');
+            if ( confirmacao ) {
+              fetch(`/Produto/delete/${produtoID}`,{
+                method: 'DELETE'
+              })
+              .then(response => {
+                if (response.ok) {
+                  window.location.href = '/';
+                } else {
+                  alert('Erro ao excluir o produto.');
+                }
+              });
+            }
+          });
+        </script>
+        </li>
+      <% }) %>
+    </ul>
+    
+   
+ <ul>
+    <section class="adicionar">
     <h2>Adicionar Produto</h2>
     <form action="/Produto/add" method="POST">
         <label for = "ProdutoNome">Nome:</label>
@@ -35,9 +58,11 @@
         <input type="number" step="0.01" name="ProdutoPreco" placeholder="Preço" required>
         <br>
         <label for="ProdutoImagem">Imagem: </label>
-        <input type="image" name="ProdutoImagem" placeholder="Imagem URL" accept="image/*">
+        <input type="file" name="ProdutoImagem" placeholder="Imagem URL" accept="image/*" required>
         <button type="submit">Adicionar</button>
     </form>
+    
     </section>
+  </ul>
 </body>
 </html>

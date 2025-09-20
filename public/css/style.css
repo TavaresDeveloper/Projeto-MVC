@@ -19,6 +19,7 @@ h1 {
     padding: 0;
     margin-top: 4px;
     font-size: 25px;
+    text-align: center;
 }
 
 h2 {
@@ -29,6 +30,36 @@ h2 {
 form {
     margin-top: 20px;
     background-color: #ffffff;
+}
+
+.btn-excluir {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: auto;
+    margin-left: 20px;
+}
+.produto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+li {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 label {
@@ -60,11 +91,12 @@ button{
     border-radius: 8px;
     cursor: pointer;
 }
-section {
-    top: 20px;
+.adicionar {
+    
     background-color: #ffffff;
     padding: 20px;
     margin: 20px auto;
+    margin-bottom: 10px;
     width: 35%;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

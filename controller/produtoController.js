@@ -14,7 +14,7 @@ module.exports = {
 
     criarProduto: async (req, res) => {
         try {
-            const { ProdutoNome, ProdutoQTD, ProdutoPreco, ProdutoImagem } = req.body;
+            let { ProdutoNome, ProdutoQTD, ProdutoPreco, ProdutoImagem } = req.body;
             if(req.file) {
                 ProdutoImagem = req.file.filename; 
             }

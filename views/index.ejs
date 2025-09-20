@@ -13,32 +13,13 @@
         <% produtos.forEach(produto => { %>
       <li>
         <%= produto.ProdutoNome %> - R$ <%= produto.ProdutoPreco %> - Qtd: <%= produto.ProdutoQTD %>
-        <% if (produto.Pr) { %>
-          <br>
-          <img src="/uploads/<%= produto.imagem %>" width="30">
-        <% } %>
+        <% if (produto.ProdutoImagem) { %> <br>
+          <img src="/uploads/<%= produto.ProdutoImagem %>" width="30"> <% } %>
         <div class="produto">
-      <button class="btn-excluir" data-id="<%= produto.produtoID %>">Excluir</button>
+      <button class="btn-excluir" data-id="<%= produto.ProdutoID %>">Excluir</button>
         </div>
 
-        <script>
-          document.querySelector('.btn-excluir[data-id="<%= produto.produtoID %>"]').addEventListener('click', function() {
-            const produtoID = this.getAttribute('data-id');
-            const confirmacao = confirm('Tem certeza que deseja excluir este produto?');
-            if ( confirmacao ) {
-              fetch(`/Produto/delete/${produtoID}`,{
-                method: 'DELETE'
-              })
-              .then(response => {
-                if (response.ok) {
-                  window.location.href = '/';
-                } else {
-                  alert('Erro ao excluir o produto.');
-                }
-              });
-            }
-          });
-        </script>
+        
         </li>
       <% }) %>
     </ul>
@@ -64,5 +45,29 @@
     
     </section>
   </ul>
+  <script>
+          
+            document.addEventListener('DOMContentLoaded', (event) => {
+           const botoesExcluir = document.querySelectorAll('.btn-excluir');
+           botoesExcluir.forEach(botao => {
+            botao.addEventListener('click', () => {
+                const produtoID = botao.getAttribute('data-id');
+                if (confirm('Tem certeza que deseja excluir este produto?')) {
+                    fetch(`/Produto/delete/${produtoID}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/';
+                        } else {
+                            alert('Erro ao excluir o produto.');
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -17,33 +17,13 @@ const port = 3000;
 
 
  api.get('/', (req, res) => {
-  Produto.findAll().then(produtos => {
+  Produto.findAll({raw: true}).then(produtos => {
     res.render('index', { title: 'Lista de Produtos', produtos: produtos });
   });
   
  });
 
- api.delete('/Produto/delete/:produtoID', (req, res) => {
-  const produtoId = req.params.produtoID;
-  Produto.destroy({ where: { produtoID: produtoId } })
-    .then(result => { 
-      
-      if(result > 0){
-        console.log('Produto excluído com sucesso!');
-         
-         res.status(200).send('Produto excluído com sucesso');
-      }
-      else{
-        console.log('Produto não encontrado!');
-        res.status(404).send('Produto não encontrado');
-      }     
-    
-      })
-       .catch(err => {
-      console.error('Erro ao excluir o produto:', err);
-      res.status(500).send('Erro ao excluir o produto');
-    });
-});
+
 
  sequelize.sync()
       .then(() => {

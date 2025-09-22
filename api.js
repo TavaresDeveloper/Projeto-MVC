@@ -4,6 +4,8 @@ const produtoRouter = require('./routes/produtoRoutes.js');
 const sequelize = require('./config/database.js');
 const Produto = require('./modules/Produto.js');
 const path = require('path');
+const Categoria = require('./modules/Categoria.js'); 
+const categoriaRouter = require('./routes/categoriaRoutes.js'); 
 const port = 3000;
 
 
@@ -13,14 +15,26 @@ const port = 3000;
  api.use(express.urlencoded({ extended: true }));
  api.use(express.json());
  api.use('/Produto', produtoRouter);
+ api.use('/Categoria', categoriaRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
 
 
- api.get('/', (req, res) => {
-  Produto.findAll({raw: true}).then(produtos => {
-    res.render('index', { title: 'Lista de Produtos', produtos: produtos });
-  });
-  
+ api.get('/', async (req, res) => {
+  try {
+      const categorias = await Categoria.findAll({raw: true});
+      const produtos = await Produto.findAll({raw: true});
+       
+       res.render('index', {
+          title: 'Lista de Produtos',
+          produtos: produtos,
+          categorias: categorias
+       });
+
+  } catch (error) {
+       console.error("Erro ao listar produtos:", error);
+       res.status(500).send("Erro ao listar produtos"); 
+       };
+
  });
 
 

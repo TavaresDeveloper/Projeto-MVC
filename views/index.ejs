@@ -13,8 +13,9 @@
         <% produtos.forEach(produto => { %>
       <li>
         <%= produto.ProdutoNome %> - R$ <%= produto.ProdutoPreco %> - Qtd: <%= produto.ProdutoQTD %>
+            - Categoria: <%= produto.ProdutoCategoria %>
         <% if (produto.ProdutoImagem) { %> <br>
-          <img src="/uploads/<%= produto.ProdutoImagem %>" width="30"> <% } %>
+          <img src="public/uploads/<%= produto.ProdutoImagem %>" width="50px" height="50px"> <% } %>
         <div class="produto">
       <button class="btn-excluir" data-id="<%= produto.ProdutoID %>">Excluir</button>
         </div>
@@ -28,7 +29,7 @@
  <ul>
     <section class="adicionar">
     <h2>Adicionar Produto</h2>
-    <form action="/Produto/add" method="POST">
+    <form action="/Produto/add" method="POST" enctype="multipart/form-data">
         <label for = "ProdutoNome">Nome:</label>
         <input type="text" name="ProdutoNome" placeholder="Nome" required>
         <br>
@@ -40,11 +41,32 @@
         <br>
         <label for="ProdutoImagem">Imagem: </label>
         <input type="file" name="ProdutoImagem" placeholder="Imagem URL" accept="image/*" required>
+        <br>
+        <label for = "ProdutoCategoria">Categoria:</label>
+        <select name="ProdutoCategoria" required>
+            <% categorias.forEach(Categoria => { %>
+            <option value="<%= Categoria.CategoriaID %>">
+                <%= Categoria.CategoriaNome %>
+                 </option>
+            <% }) %>
+           
+        </select>
+        <br>
         <button type="submit">Adicionar</button>
     </form>
     
     </section>
-  </ul>
+    </ul>
+     <ul>
+    <section class="adicionarCategoria">
+    <h2>Adicionar Categoria</h2>
+    <form action="/Categoria/add" method="POST">
+        <label for = "CategoriaNome">Nome da Categoria:</label>
+        <input type="text" name="CategoriaNome" placeholder="Nome" required>
+        <br>
+        <button type="submit">Adicionar Categoria</button>
+    </form>
+     </ul>
   <script>
           
             document.addEventListener('DOMContentLoaded', (event) => {

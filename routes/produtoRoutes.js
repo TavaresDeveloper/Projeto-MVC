@@ -30,6 +30,8 @@ router.delete('/delete/:produtoID', (req, res) => {
         .catch(err => {
             res.status(500).send('Erro ao excluir o produto');
         });
+
+    
 });
 
 module.exports = router;

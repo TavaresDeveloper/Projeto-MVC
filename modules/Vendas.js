@@ -54,5 +54,8 @@ const Vendas = sequelize.define('Vendas', {
 }, 
 {
     tableName: 'Vendas',
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true
 });
+
+module.exports = Vendas;

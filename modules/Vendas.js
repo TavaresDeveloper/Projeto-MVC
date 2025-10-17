@@ -9,18 +9,50 @@ const Vendas = sequelize.define('Vendas', {
     },
     produtoID: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'Produto',
+            key: 'produtoID'
+        }
     },
     quantidade: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        validate: {
+            min: 1
+        }
+    },
+
+    precoUnitario: {
+        type: DataTypes.FLOAT,
         allowNull: false
     },
+    precoTotal: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    cliente: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    vendedor: {
+        type: DataTypes.STRING,
+        allowNull: true
+    
+    },
+    observacoes: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+
     dataVenda: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
     }
-}, {
+}, 
+{
     tableName: 'Vendas',
     timestamps: false
 });

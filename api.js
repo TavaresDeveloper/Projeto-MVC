@@ -6,6 +6,9 @@ const Produto = require('./modules/Produto.js');
 const path = require('path');
 const Categoria = require('./modules/Categoria.js'); 
 const categoriaRouter = require('./routes/categoriaRoutes.js'); 
+const SubCategoria = require('./modules/SubCategoria.js');
+const subCategoriaRouter = require('./routes/subCategoriaRoutes.js');
+
 const port = 3000;
 
 
@@ -16,6 +19,7 @@ const port = 3000;
  api.use(express.json());
  api.use('/Produto', produtoRouter);
  api.use('/Categoria', categoriaRouter);
+ api.use('/SubCategoria', subCategoriaRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
 
 

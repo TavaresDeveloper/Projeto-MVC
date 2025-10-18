@@ -26,5 +26,33 @@ module.exports = {
             console.error("Erro ao listar categorias:", error);
             res.status(500).send("Erro ao listar categorias");
         }
+    },
+    editarCategoria: async (req, res) => {
+        try {
+            let { id } = req.params;
+            let { CategoriaNome } = req.body;
+            await categoria.update({
+                CategoriaNome
+            }, {
+                where: { id: id }
+            });
+            res.redirect("/Categoria/listar");
+        } catch (error) {
+            console.error("Erro ao editar categoria:", error);
+            res.status(500).send("Erro ao editar categoria");
+        }   
+    },
+
+    deletarCategoria: async (req, res) => {
+        try {
+            let { id } = req.params;
+            await categoria.destroy({
+                where: { id: id }
+            });
+            res.redirect("/Categoria/listar");
+        } catch (error) {
+            console.error("Erro ao deletar categoria:", error);
+            res.status(500).send("Erro ao deletar categoria");
+        }
     }
 };

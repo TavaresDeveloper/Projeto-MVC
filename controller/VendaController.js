@@ -116,6 +116,47 @@ module.exports = {
             console.error("Erro ao editar venda:", error);
             res.status(500).send("Erro ao editar venda");
         }
+    },
+    deletarVendas: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const venda = await Venda.findByPk(id);
+            if (!venda) {
+                return res.status(404).json({ error: "Venda não encontrada" });
+            }
+            await venda.destroy();
+            res.json({
+                sucesso: true,
+                mensagem: "Venda deletada com sucesso!"
+            });
+        } catch (error) {
+            console.error("Erro ao deletar venda:", error);
+            res.status(500).send("Erro ao deletar venda");
+        }
+    },
+
+    obterPorId: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            const venda = await Venda.findByPk(id, {
+                include: [{
+                    model: Produto,
+                    as: 'produto',
+                    include: [{ 
+                        model: Categoria,
+                        as: 'categoria'
+                    }]
+                }]
+            });
+            if (!venda) {
+                return res.status(404).json({ error: "Venda não encontrada" });
+            }   
+            res.status(200).json(venda);
+        } catch (error) {
+            console.error("Erro ao obter venda por ID:", error);
+            res.status(500).send("Erro ao obter venda por ID");
+        }
     }
 
 };

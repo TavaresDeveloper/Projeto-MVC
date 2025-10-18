@@ -35,6 +35,51 @@ module.exports = {
             console.error("Erro ao criar produto:", error);
             res.status(500).send("Erro ao criar produto");
         }
+    },
+    editarProduto: async (req, res) => {
+        try {
+            let { id } = req.params;
+            let { ProdutoNome, ProdutoQTD, ProdutoPreco, ProdutoCategoria} = req.body;
+            let ProdutoImagem;
+            if(req.file) {
+                ProdutoImagem = req.file.filename;
+                await Produto.update({
+                    ProdutoNome,
+                    ProdutoQTD,
+                    ProdutoPreco,
+                    ProdutoImagem,
+                    ProdutoCategoria
+                }, {
+                    where: { id: id }
+                });
+            } else {
+                await Produto.update({
+                    ProdutoNome,
+                    ProdutoQTD,
+                    ProdutoPreco,
+                    ProdutoCategoria
+                }, {
+                    where: { id: id }
+                });
+            }
+            res.redirect("/Produto");
+        } catch (error) {
+            console.error("Erro ao editar produto:", error);
+            res.status(500).send("Erro ao editar produto");
+        }   
+    },
+
+    deletarProduto: async (req, res) => {
+        try {
+            let { id } = req.params;
+            await Produto.destroy({
+                where: { id: id }
+            });
+            res.redirect("/Produto");
+        } catch (error) {
+            console.error("Erro ao deletar produto:", error);
+            res.status(500).send("Erro ao deletar produto");
+        }
     }
     
 };

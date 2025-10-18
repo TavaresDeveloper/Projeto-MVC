@@ -30,6 +30,36 @@ module.exports = {
             console.error("Erro ao criar subcategoria:", error);
             res.status(500).send("Erro ao criar subcategoria");
         }
+    },
+
+    editarSubCategoria: async (req, res) => {
+        try {
+            let { id } = req.params;
+            let { SubCategoriaNome, SubCategoriaCategoria} = req.body;
+            await SubCategoria.update({
+                SubCategoriaNome,
+                SubCategoriaCategoria
+            }, {
+                where: { id: id }
+            });
+            res.redirect("/SubCategoria");
+        } catch (error) {
+            console.error("Erro ao editar subcategoria:", error);
+            res.status(500).send("Erro ao editar subcategoria");
+        }   
+    },
+    deletarSubCategoria: async (req, res) => {
+        try {
+            let { id } = req.params;
+            await SubCategoria.destroy({
+                where: { id: id }
+            });
+            res.redirect("/SubCategoria");
+        } catch (error) {
+            console.error("Erro ao deletar subcategoria:", error);
+            res.status(500).send("Erro ao deletar subcategoria");
+        }
     }
+                
 
 };  

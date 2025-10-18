@@ -7,7 +7,7 @@ const path = require('path');
 
 router.post('/add', subCategoriaController.criarSubCategoria);
 router.get('/', subCategoriaController.listarSubCategorias);
-
+router.put('/edit/:id', subCategoriaController.editarSubCategoria);
 router.delete('/delete/:subCategoriaID', (req, res) => {
     const subCategoriaId = req.params.subCategoriaID;
     SubCategoria.destroy({ where: { subCategoriaID: subCategoriaId } })

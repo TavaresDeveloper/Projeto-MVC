@@ -8,6 +8,7 @@ module.exports = {
             await categoria.create({
                 CategoriaNome
             });
+        
             res.redirect("/Categoria/listar");
         } catch (error) {
             console.error("Erro ao criar categoria:", error);
@@ -18,8 +19,7 @@ module.exports = {
        listarCategorias: async (req, res) => {
         try {
             const categorias = await categoria.findAll({ raw: true });
-            res.render("index", {
-                title: "Lista de Categorias",
+            res.render("categorias", {
                 categorias: categorias
             });
         } catch (error) {
@@ -29,12 +29,12 @@ module.exports = {
     },
     editarCategoria: async (req, res) => {
         try {
-            let { id } = req.params;
+            let { CategoriaID } = req.params.id;
             let { CategoriaNome } = req.body;
             await categoria.update({
                 CategoriaNome
             }, {
-                where: { id: id }
+                where: { CategoriaID: CategoriaID }
             });
             res.redirect("/Categoria/listar");
         } catch (error) {
@@ -45,11 +45,12 @@ module.exports = {
 
     deletarCategoria: async (req, res) => {
         try {
-            let { id } = req.params;
+            let id = req.params.id;
+            let { CategoriaID } = id;
             await categoria.destroy({
-                where: { id: id }
+                where: { CategoriaID: CategoriaID }
             });
-            res.redirect("/Categoria/listar");
+            res.redirect("/categorias");
         } catch (error) {
             console.error("Erro ao deletar categoria:", error);
             res.status(500).send("Erro ao deletar categoria");

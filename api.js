@@ -29,6 +29,20 @@ const port = 3000;
  api.use('/public', express.static(path.join(__dirname, 'public')));
 
 
+      try{
+         Produto.hasMany(Venda, {foreignKey: 'produtoID', as: 'vendas'});
+         Venda.belongsTo(Produto, {foreignKey: 'produtoID', as: 'produto'});
+
+         Cliente.hasMany(Venda, {foreignKey: 'ClienteId', as: 'vendas'});
+         Venda.belongsTo(Cliente, {foreignKey: 'ClienteId', as: 'dadosCliente'});
+
+         Categoria.hasMany(Produto, {foreignKey: 'ProdutoCategoria', as: 'produtos'});
+         Produto.belongsTo(Categoria, {foreignKey: 'ProdutoCategoria', as: 'categoria'});
+
+      } catch(error){
+         console.error("Erro ao definir associações:", error);
+      }
+
  api.get('/', async (req, res) => {
   try {
       const categorias = await Categoria.findAll({raw: true});

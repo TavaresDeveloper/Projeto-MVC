@@ -3,72 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Produtos - Sua Loja</title>
+    <title>Dashboard | Gerenciamento - Mercadinho do Sakamoto</title>
     <link rel="stylesheet" href="../public/css/style.css">
-    </head>
+    
+    <style>
+        /* CSS Básico para simular o layout Amazon-like */
+        body { font-family: Arial, sans-serif; background-color: #f3f3f3; margin: 0; padding: 0; }
+        .header { background-color: #232f3e; color: white; padding: 10px 0; }
+        .nav-bar { background-color: #37475a; color: white; padding: 5px 0; font-size: 14px; }
+        .container { width: 90%; max-width: 1300px; margin: 0 auto; }
+        .logo { font-size: 24px; margin: 0; color: #ff9900; }
+        .nav a { color: white; text-decoration: none; margin-left: 20px; transition: color 0.2s; }
+        .nav a:hover { color: #ff9900; }
+        
+        /* Layout principal do painel */
+        .dashboard-content { display: flex; gap: 20px; padding: 20px 0; }
+        .product-main-area { flex-grow: 1; }
+        .management-sidebar { width: 350px; min-width: 300px; } /* Painel lateral de gerenciamento */
+        
+        /* Estilos de Cartões (a la Amazon) */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .product-card { background-color: white; border: 1px solid #ddd; padding: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .product-image { max-width: 100%; height: auto; display: block; margin-bottom: 10px; }
+        .product-image-placeholder { height: 150px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; color: #888; }
+        .product-info h3 { margin-top: 0; font-size: 16px; }
+        .product-price { font-size: 18px; color: #b12704; margin: 5px 0; }
+        .product-actions { display: flex; justify-content: space-between; margin-top: 10px; }
+        .btn-primary { background-color: #ff9900; color: #111; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.9; }
+
+        .form-section { background-color: white; padding: 20px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
+    </style>
+</head>
 <body>
 
     <header class="header">
-        <div class="container">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <h1 class="logo">Mercadinho do Sakamoto</h1>
             <nav class="nav">
-                <a href="#lista-produtos">Produtos</a>
-                <a href="#adicionar-produto">Adicionar Produto</a>
-                <a href="#adicionar-categoria">Adicionar Categoria</a>
+                <a href="/">Dashboard</a>
+                <a href="/vendas">Vendas</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/categorias">Categorias</a>
+                <a href="/subcategorias">SubCategorias</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
+    <div class="nav-bar">
+        <div class="container">
+            <a href="#lista-produtos">Produtos</a>
+            <a href="#adicionar-produto">Novo Produto</a>
+            <a href="#adicionar-categoria">Nova Categoria</a>
+            <a href="#adicionar-subcategoria">Nova SubCategoria</a>
+        </div>
+    </div>
 
-        <section id="lista-produtos" class="product-list-section">
-            <h2>Produtos em Destaque</h2>
-            
-            <% if (produtos.length === 0) { %>
-                <p class="empty-state">Nenhum produto cadastrado no momento.</p>
-            <% } else { %>
-                <div class="product-grid">
-                    <% produtos.forEach(produto => { %>
-                        <div class="product-card">
-                            
-                            <% if (produto.ProdutoImagem) { %>
-                                <img src="public/uploads/<%= produto.ProdutoImagem %>" alt="<%= produto.ProdutoNome %>" class="product-image">
-                            <% } else { %>
-                                <div class="product-image-placeholder">Sem Imagem</div>
-                            <% } %>
+    <main class="container dashboard-content">
 
-                            <div class="product-info">
-                                <h3 class="product-name"><%= produto.ProdutoNome %></h3>
+        <div class="product-main-area">
+            <section id="lista-produtos" class="a-section a-spacing-extra-large">
+                <h2>Produtos Cadastrados</h2>
+                
+                <% if (produtos.length === 0) { %>
+                    <p class="empty-state">Nenhum produto cadastrado no momento.</p>
+                <% } else { %>
+                    <div class="product-grid">
+                        <% produtos.forEach(produto => { %>
+                            <div class="product-card">
                                 
-                                <p class="product-price">R$ <strong><%= produto.ProdutoPreco.toFixed(2).replace('.', ',') %></strong></p>
+                                <% if (produto.ProdutoImagem) { %>
+                                    <img src="/public/uploads/<%= produto.ProdutoImagem %>" alt="<%= produto.ProdutoNome %>" class="product-image">
+                                <% } else { %>
+                                    <div class="product-image-placeholder">Sem Imagem</div>
+                                <% } %>
 
-                                <p class="product-detail"><span>Quantidade:</span> <%= produto.ProdutoQTD %></p>
-                                <p class="product-detail"><span>Categoria:</span> <%= produto.ProdutoCategoria %></p>
-                            </div>
-                            
-                            <div class="product-actions">
-                                <button class="btn btn-excluir" data-id="<%= produto.ProdutoID %>">Excluir</button>
-                                <button class="btn btn-edit">Detalhes</button>
-                            </div>
-                        </div>
-                    <% }) %>
-                </div>
-            <% } %>
-        </section>
+                                <div class="product-info">
+                                    <h3 class="product-name"><%= produto.ProdutoNome %></h3>
+                                    
+                                    <p class="product-detail"><span>Categoria:</span> 
+                                        <% if (produto.categoria) { %>
+                                            <%= produto.categoria.CategoriaNome %>
+                                        <% } else { %>
+                                            N/A
+                                        <% } %>
+                                    </p>
 
-        <div class="management-panel">
+                                    <p class="product-price">R$ <strong><%= produto.ProdutoPreco.toFixed(2).replace('.', ',') %></strong></p>
+                                    <p class="product-detail"><span>Estoque:</span> <%= produto.ProdutoQTD %></p>
+                                </div>
+                                
+                                <div class="product-actions">
+                                    <a href="/Produto/edit/<%= produto.ProdutoID %>" class="btn btn-edit btn-secondary">Detalhes</a>
+                                    <button class="btn btn-excluir btn-primary" data-id="<%= produto.ProdutoID %>">Excluir</button>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </section>
+        </div>
+
+        <div class="management-sidebar">
             
             <section id="adicionar-produto" class="form-section">
                 <h2>Adicionar Novo Produto</h2>
                 <form action="/Produto/add" method="POST" enctype="multipart/form-data" class="form form-produto">
                     
                     <div class="form-group">
-                        <label for="ProdutoNome">Nome do Produto:</label>
+                        <label for="ProdutoNome">Nome:</label>
                         <input type="text" name="ProdutoNome" placeholder="Ex: Smartphone X" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="ProdutoQTD">Quantidade em Estoque:</label>
+                        <label for="ProdutoQTD">Estoque:</label>
                         <input type="number" name="ProdutoQTD" placeholder="10" required min="1">
                     </div>
                     
@@ -78,21 +128,21 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="ProdutoImagem">Imagem do Produto:</label>
+                        <label for="ProdutoImagem">Imagem:</label>
                         <input type="file" name="ProdutoImagem" accept="image/*" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="ProdutoCategoria">Categoria:</label>
                         <select name="ProdutoCategoria" required>
-                            <option value="">-- Selecione uma Categoria --</option>
+                            <option value="">-- Selecione --</option>
                             <% categorias.forEach(Categoria => { %>
                                 <option value="<%= Categoria.CategoriaID %>"><%= Categoria.CategoriaNome %></option>
                             <% }) %>
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">Adicionar Produto</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Adicionar Produto</button>
                 </form>
             </section>
 
@@ -100,17 +150,40 @@
                 <h2>Adicionar Nova Categoria</h2>
                 <form action="/Categoria/add" method="POST" class="form form-categoria">
                     <div class="form-group">
-                        <label for="CategoriaNome">Nome da Categoria:</label>
+                        <label for="CategoriaNome">Nome:</label>
                         <input type="text" name="CategoriaNome" placeholder="Ex: Eletrônicos" required>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Adicionar Categoria</button>
+                    <button type="submit" class="btn btn-secondary" style="width: 100%;">Adicionar Categoria</button>
                 </form>
             </section>
+            
+            <section id="adicionar-subcategoria" class="form-section">
+                <h2>Adicionar Nova SubCategoria</h2>
+                <form action="/SubCategoria/add" method="POST" class="form form-subcategoria">
+                    <div class="form-group">
+                        <label for="SubCategoriaNome">Nome:</label>
+                        <input type="text" name="SubCategoriaNome" placeholder="Ex: Celulares" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="CategoriaID">Categoria Principal:</label>
+                        <select name="CategoriaID" required>
+                            <option value="">-- Selecione --</option>
+                            <% categorias.forEach(Categoria => { %>
+                                <option value="<%= Categoria.CategoriaID %>"><%= Categoria.CategoriaNome %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary" style="width: 100%;">Adicionar SubCategoria</button>
+                </form>
+            </section>
+
         </div>
 
     </main>
     
-    <footer class="footer">
+    <footer class="footer" style="background-color: #232f3e; color: white; text-align: center; padding: 10px 0; margin-top: 20px;">
         <p>&copy; <%= new Date().getFullYear() %> Mercadinho do Sakamoto. Todos os direitos reservados.</p>
     </footer>
 
@@ -121,13 +194,11 @@
                 botao.addEventListener('click', () => {
                     const produtoID = botao.getAttribute('data-id');
                     if (confirm('Tem certeza que deseja excluir este produto? Esta ação é irreversível.')) {
-                        // Usando fetch para enviar a requisição de exclusão (como você já fazia)
                         fetch(`/Produto/delete/${produtoID}`, {
                             method: 'DELETE'
                         })
                         .then(response => {
                             if (response.ok) {
-                                // Redireciona para atualizar a lista após a exclusão
                                 window.location.href = '/'; 
                             } else {
                                 alert('Erro ao excluir o produto. Tente novamente.');

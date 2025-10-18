@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Categorias</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+    
+    <style>
+        .category-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        .category-table th, .category-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .category-table th {
+            background-color: #f5f5f5;
+            color: #333;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        .category-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 10px;
+            text-transform: none;
+            width: auto;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 class="logo">Mercadinho do Sakamoto</h1>
+            <nav class="nav">
+                <a href="/">Dashboard</a>
+                <a href="/vendas">Vendas</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/categorias">Categorias</a>
+                </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 20px;">
+        
+        <h2>Gerenciar Categorias</h2>
+
+        <section id="adicionar-categoria" class="form-section" style="margin-bottom: 30px;">
+            <h2>Adicionar Nova Categoria</h2>
+            <form action="/Categoria/add" method="POST" class="form form-categoria">
+                <div class="form-group">
+                    <label for="CategoriaNome">Nome da Categoria:</label>
+                    <input type="text" name="CategoriaNome" placeholder="Ex: Bebidas" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: auto;">Adicionar Categoria</button>
+            </form>
+        </section>
+
+        <section id="lista-categorias">
+            <h3>Categorias Existentes</h3>
+            <% if (categorias.length === 0) { %>
+                <p class="empty-state">Nenhuma categoria cadastrada.</p>
+            <% } else { %>
+                <table class="category-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categorias.forEach(categoria => { %>
+                            <tr>
+                                <td><%= categoria.CategoriaID %></td>
+                                <td><%= categoria.CategoriaNome %></td>
+                                <td class="category-actions">
+                                    <button class="btn btn-edit btn-small">Editar</button>
+                                    <button class="btn btn-excluir btn-small" 
+                                            onclick="confirmDelete('<%= categoria.CategoriaID %>', '<%= categoria.CategoriaNome %>')">
+                                            Excluir
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <%= new Date().getFullYear() %> Mercadinho do Sakamoto. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function confirmDelete(id, nome) {
+            if (confirm(`Tem certeza que deseja excluir a categoria "${nome}" (ID: ${id})? Isso pode afetar os produtos relacionados.`)) {
+                // Implemente a chamada fetch DELETE para a rota de exclusão da Categoria
+                // fetch(`/Categoria/delete/${id}`, { method: 'DELETE' })
+                // .then(response => { if (response.ok) window.location.reload(); })
+                // .catch(err => alert('Erro ao excluir.'));
+                alert("Função de exclusão não implementada totalmente. ID: " + id);
+            }
+        }
+    </script>
+</body>
+</html>

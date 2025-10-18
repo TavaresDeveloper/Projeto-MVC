@@ -1,29 +1,29 @@
 
-const { or } = require('sequelize');
 const Venda = require('../modules/Vendas.js');
 const Produto = require('../modules/Produto.js');
 const Cliente = require('../modules/Cliente.js');
-const Categoria = require('../modules/Categoria');
+const Categoria = require('../modules/Categoria.js');
 
 
 module.exports = {
     listarVendas: async (req, res) => {
         try {
             const vendas = await Venda.findAll({
-                include:[{
-                      model: Produto ,
-                      as: 'produto',
-
-                     model: Cliente ,
-                     
-                 include:[{ 
-                    
-                    model: Categoria,
-                    as: 'categoria'
-
-                     }]
-        
-            }], 
+                include: [
+                    {
+                        model: Produto,
+                        as: 'produto',
+                        include: [{
+                            model: Categoria,
+                            as: 'categoria'
+                        }]
+                    },
+                    {
+                        model: Cliente,
+                        as: 'dadosCliente'
+                    }
+                ],
+            
               order: [['VendaData', 'DESC']]
            });
            const totalVendas = vendas.length;
@@ -34,15 +34,12 @@ module.exports = {
                return total + venda.VendaQuantidade;
            }, 0);
             res.status(200).render("venda", {
-                vendas: vendas
+                vendas: vendas,
+                totalVendas: totalVendas,
+                valorTotalVendas: valorTotalVendas,
+                produtosVendidos: produtosVendidos
             });
-            res.json({
-                totalVendas,
-                estatisticas: {
-                valorTotalVendas,
-                produtosVendidos
-                }
-            });
+            
         } catch (error) {
             console.error("Erro ao listar vendas:", error);
             res.status(500).send("Erro ao listar vendas");
@@ -51,7 +48,7 @@ module.exports = {
 
     criarVenda: async (req, res) => {
         try {
-            let { VendaData, VendaQuantidade, ProdutoId, Cliente } = req.body;
+            let { VendaData, VendaQuantidade, ProdutoId, Cliente, observacoes } = req.body;
             const produto = await Produto.findByPk(ProdutoId);
 
             if(!produto){

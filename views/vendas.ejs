@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Vendas</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Vendas</h2>
+        
+        <% if (vendas && vendas.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Venda</th>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço Total</th>
+                        <th>Cliente</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% vendas.forEach(venda => { %>
+                        <tr>
+                            <td><%= venda.vendaID %></td>
+                            <td><%= venda.produtoID %></td> 
+                            <td><%= venda.quantidade %></td>
+                            <td>R$ <%= venda.precoTotal.toFixed(2).replace('.', ',') %></td>
+                            <td><%= venda.cliente %></td>
+                            <td><%= new Date(venda.dataVenda).toLocaleDateString() %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>Nenhuma venda encontrada.</p>
+        <% } %>
+    </div>
+</body>
+</html>

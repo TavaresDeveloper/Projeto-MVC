@@ -45,12 +45,11 @@ module.exports = {
 
     deletarCategoria: async (req, res) => {
         try {
-            let id = req.params.id;
-            let { CategoriaID } = id;
+            let CategoriaID  = req.params.CategoriaID;
             await categoria.destroy({
                 where: { CategoriaID: CategoriaID }
             });
-            res.redirect("/categorias");
+            res.redirect("/Categoria/listar");
         } catch (error) {
             console.error("Erro ao deletar categoria:", error);
             res.status(500).send("Erro ao deletar categoria");

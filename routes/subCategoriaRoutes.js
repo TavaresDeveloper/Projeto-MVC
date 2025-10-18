@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const subCategoriaController = require('../controller/subCategoriaController.js');  
+const subCategoriaController = require('../controller/SubCategoriaController.js');  
 const SubCategoria = require('../modules/SubCategoria.js');
 const multer = require('multer');
 const path = require('path');

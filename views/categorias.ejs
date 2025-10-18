@@ -106,12 +106,12 @@
     </footer>
 
     <script>
-        function confirmDelete(id, nome) {
-            if (confirm(`Tem certeza que deseja excluir a categoria "${nome}" (ID: ${id})? Isso pode afetar os produtos relacionados.`)) {
-                // Implemente a chamada fetch DELETE para a rota de exclusão da Categoria
-                // fetch(`/Categoria/delete/${id}`, { method: 'DELETE' })
-                // .then(response => { if (response.ok) window.location.reload(); })
-                // .catch(err => alert('Erro ao excluir.'));
+        function confirmDelete(CategoriaID, CategoriaNome){
+            if (confirm(`Tem certeza que deseja excluir a categoria "${CategoriaNome}" (ID: ${CategoriaID})? Isso pode afetar os produtos relacionados.`)) {
+        
+                 fetch(`/Categoria/delete/${CategoriaID}`, { method: 'DELETE' })
+                 .then(response => { if (response.ok) window.location.reload(); })
+                 .catch(err => alert('Erro ao excluir.'));
                 alert("Função de exclusão não implementada totalmente. ID: " + id);
             }
         }

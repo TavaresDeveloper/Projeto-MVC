@@ -71,11 +71,11 @@ module.exports = {
 
     deletarProduto: async (req, res) => {
         try {
-            let { id } = req.params;
+             let id = req.params.id;
             await Produto.destroy({
-                where: { id: id }
+                where: { ProdutoID: id }
             });
-            res.redirect("/Produto");
+            res.redirect("/");
         } catch (error) {
             console.error("Erro ao deletar produto:", error);
             res.status(500).send("Erro ao deletar produto");

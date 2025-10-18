@@ -20,10 +20,11 @@ module.exports = {
 
     criarSubCategoria: async (req, res) => {
         try {
-            let { SubCategoriaNome, SubCategoriaCategoria} = req.body;
+            let { SubCategoriaNome, CategoriaID} = req.body;
             await SubCategoria.create({
-                SubCategoriaNome,
-                SubCategoriaCategoria
+
+                SubCategoriaNome: SubCategoriaNome,
+                CategoriaID: CategoriaID
             });
             res.redirect("/SubCategoria");
         } catch (error) {
@@ -34,13 +35,13 @@ module.exports = {
 
     editarSubCategoria: async (req, res) => {
         try {
-            let { id } = req.params;
-            let { SubCategoriaNome, SubCategoriaCategoria} = req.body;
+            let  subCategoriaID  = req.params.id;
+            let { SubCategoriaNome} = req.body;
             await SubCategoria.update({
-                SubCategoriaNome,
-                SubCategoriaCategoria
-            }, {
-                where: { id: id }
+                SubCategoriaNome
+            }, 
+            {
+                where: { subCategoriaID: subCategoriaID }
             });
             res.redirect("/SubCategoria");
         } catch (error) {
@@ -50,9 +51,9 @@ module.exports = {
     },
     deletarSubCategoria: async (req, res) => {
         try {
-            let { id } = req.params;
+            let { subCategoriaID } = req.params.id;
             await SubCategoria.destroy({
-                where: { id: id }
+                where: { subCategoriaID: subCategoriaID }
             });
             res.redirect("/SubCategoria");
         } catch (error) {

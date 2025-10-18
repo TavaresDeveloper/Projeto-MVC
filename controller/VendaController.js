@@ -1,5 +1,5 @@
 
-const { or } = require('sequelize');
+const sequelize = require('sequelize');
 const {Venda, Produto, Cliente} = require('../models');
 const Categoria = require('../modules/Categoria');
 
@@ -49,17 +49,72 @@ module.exports = {
 
     criarVenda: async (req, res) => {
         try {
-            let { VendaData, VendaQuantidade, ProdutoId, ClienteId } = req.body;
+            let { VendaData, VendaQuantidade, ProdutoId, Cliente } = req.body;
+            const produto = await Produto.findByPk(ProdutoId);
+
+            if(!produto){
+                return res.status(404).json({error: "Produto não encontrado"});
+            }
+            const quantidadeInt = parseInt(VendaQuantidade);
+            const precoUnitario = produto.preco;
+            const valorTotal = quantidadeInt * precoUnitario;
+
             await Venda.create({
-                VendaData,
-                VendaQuantidade,
-                ProdutoId,
-                ClienteId
+                VendaData: new Date(VendaData),
+                VendaQuantidade: quantidadeInt,
+                ProdutoId : ProdutoId,
+                Cliente: Cliente || null,
+                observacoes: observacoes || null,
+                valorTotal: valorTotal
             });
-            res.redirect("/Venda");
+            
+            res.json({
+                sucesso: true,
+                mensagem: "Venda criada com sucesso!",
+                venda: {
+                    VendaData,
+                    VendaQuantidade: quantidadeInt,
+                    ProdutoId,
+                    Cliente,
+                    valorTotal
+                }   
+            });
         } catch (error) {
             console.error("Erro ao criar venda:", error);
             res.status(500).send("Erro ao criar venda");
+        }
+    },
+    editarVendas: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { VendaData, VendaQuantidade, ProdutoId, Cliente } = req.body;
+
+            const venda = await Venda.findByPk(id);
+            if (!venda) {
+                return res.status(404).json({ error: "Venda não encontrada" });
+            }
+            const produto = await Produto.findByPk(ProdutoId);
+            if (!produto) {
+                return res.status(404).json({ error: "Produto não encontrado" });
+            }
+            const quantidadeInt = parseInt(VendaQuantidade);
+            const precoUnitario = produto.preco;
+            const valorTotal = quantidadeInt * precoUnitario;
+            
+            await venda.update({
+                VendaData: new Date(VendaData),
+                VendaQuantidade,
+                ProdutoId,
+                Cliente
+            });
+            res.json({
+                sucesso: true,
+                mensagem: "Venda atualizada com sucesso!",
+                venda: venda
+            });
+        } catch (error) {   
+            console.error("Erro ao editar venda:", error);
+            res.status(500).send("Erro ao editar venda");
         }
     }
 

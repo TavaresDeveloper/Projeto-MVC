@@ -8,20 +8,5 @@ const path = require('path');
 router.post('/add', subCategoriaController.criarSubCategoria);
 router.get('/', subCategoriaController.listarSubCategorias);
 router.put('/edit/:id', subCategoriaController.editarSubCategoria);
-router.delete('/delete/:subCategoriaID', (req, res) => {
-    const subCategoriaId = req.params.subCategoriaID;
-    SubCategoria.destroy({ where: { subCategoriaID: subCategoriaId } })
-        .then(result => {
-            if (result > 0) {
-                res.status(200).send('SubCategoria excluída com sucesso');
-            } else {
-                res.status(404).send('SubCategoria não encontrada');
-            }
-        })
-        .catch(err => {
-            res.status(500).send('Erro ao excluir a SubCategoria');
-        });
-
-});
-
+router.delete('/delete/:id', subCategoriaController.deletarSubCategoria);
 module.exports = router;

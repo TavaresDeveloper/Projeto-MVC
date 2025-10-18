@@ -1,6 +1,8 @@
 
-const sequelize = require('sequelize');
-const {Venda, Produto, Cliente} = require('../models');
+const { or } = require('sequelize');
+const Venda = require('../modules/Vendas.js');
+const Produto = require('../modules/Produto.js');
+const Cliente = require('../modules/Cliente.js');
 const Categoria = require('../modules/Categoria');
 
 

@@ -8,6 +8,10 @@ const Categoria = require('./modules/Categoria.js');
 const categoriaRouter = require('./routes/categoriaRoutes.js'); 
 const SubCategoria = require('./modules/SubCategoria.js');
 const subCategoriaRouter = require('./routes/subCategoriaRoutes.js');
+const Venda = require('./modules/Vendas.js');
+const vendaRouter = require('./routes/VendaRoutes.js');
+const Cliente = require('./modules/Cliente.js');
+const clienteRouter = require('./routes/ClienteRoutes.js');
 
 const port = 3000;
 
@@ -20,6 +24,8 @@ const port = 3000;
  api.use('/Produto', produtoRouter);
  api.use('/Categoria', categoriaRouter);
  api.use('/SubCategoria', subCategoriaRouter);
+ api.use('/Venda', vendaRouter);
+ api.use('/Cliente', clienteRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
 
 
@@ -40,6 +46,70 @@ const port = 3000;
        };
 
  });
+
+  api.get('/categorias', async (req, res) => {
+     try {
+         const categorias = await Categoria.findAll({raw: true});
+          
+          res.render('categorias', {
+             title: 'Lista de Categorias',
+             categorias: categorias
+          });
+
+     } catch (error) {
+          console.error("Erro ao listar categorias:", error);
+          res.status(500).send("Erro ao listar categorias"); 
+        };
+
+  });
+
+  api.get('/subcategorias', async (req, res) => {
+     try {
+         const subcategorias = await SubCategoria.findAll({raw: true});
+          
+          res.render('subcategorias', {
+             title: 'Lista de SubCategorias',
+             subcategorias: subcategorias
+          });
+
+     } catch (error) {
+          console.error("Erro ao listar subcategorias:", error);
+          res.status(500).send("Erro ao listar subcategorias"); 
+        };
+
+  });
+
+  api.get('/vendas', async (req, res) => {
+     try {
+         const vendas = await Venda.findAll({raw: true});
+          
+          res.render('vendas', {
+             title: 'Lista de Vendas',
+             vendas: vendas
+          });
+
+     } catch (error) {
+          console.error("Erro ao listar vendas:", error);
+          res.status(500).send("Erro ao listar vendas"); 
+        };
+
+  });
+
+   api.get('/clientes', async (req, res) => {
+       try {
+             const clientes = await Cliente.findAll({raw: true});
+               res.render('clientes', {
+                  title: 'Lista de Clientes',
+                  clientes: clientes
+               });
+               
+        } catch (error) {
+             console.error("Erro ao listar clientes:", error);
+             res.status(500).send("Erro ao listar clientes"); 
+           };
+           
+   });
+  
 
 
 

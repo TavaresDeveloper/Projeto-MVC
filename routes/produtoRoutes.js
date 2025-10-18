@@ -18,21 +18,8 @@ const upload = multer({ storage: storage});
 router.post('/add', upload.single('ProdutoImagem'), produtoController.criarProduto);
 router.get('/', produtoController.listarProdutos);
 router.put('/edit/:id', upload.single('ProdutoImagem'), produtoController.editarProduto);
-router.delete('/delete/:produtoID', (req, res) => {
-    const produtoId = req.params.produtoID;
-    Produto.destroy({ where: { produtoID: produtoId } })
-        .then(result => {
-            if (result > 0) {
-                res.status(200).send('Produto excluído com sucesso');
-            } else {
-                res.status(404).send('Produto não encontrado');
-            }
-        })
-        .catch(err => {
-            res.status(500).send('Erro ao excluir o produto');
-        });
-
+router.delete('/delete/:id', produtoController.deletarProduto); 
     
-});
+
 
 module.exports = router;

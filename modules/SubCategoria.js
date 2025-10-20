@@ -23,3 +23,5 @@ const SubCategoria = sequelize.define('SubCategoria', {
         }
     }
 });
+
+module.exports = SubCategoria;

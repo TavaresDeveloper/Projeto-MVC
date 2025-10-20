@@ -6,9 +6,9 @@ const multer = require('multer');
 const path = require('path');
 
 router.post('/add', clienteController.criarCliente);
-router.get('/listar', clienteController.listarClientes);
-router.put('/edit/:id', clienteController.editarCliente);
-router.delete('/delete/:id', clienteController.deletarCliente);
+router.get('/', clienteController.listarClientes);
+router.put('/:id', clienteController.editarCliente);
+router.delete('/:id', clienteController.deletarCliente);
 
 
 module.exports = router;

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Gestão de Clientes</h1>
+            <nav class="nav">
+                <a href="/">Início</a>
+                <a href="/Cliente">Clientes</a>
+                <a href="/Produto">Produtos</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="nav-bar">
+        <div class="container">
+            <a href="/Cliente">Listar Clientes</a>
+            <a href="/Cliente/cadastro">Cadastrar Novo</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="dashboard-content">
+            <aside class="management-sidebar">
+                <div class="form-section">
+                    <h2>Cadastrar Cliente</h2>
+                    <form action="/Cliente/add" method="POST">
+                        <div class="form-group">
+                            <label for="ClienteNome">Nome do Cliente</label>
+                            <input type="text" name="ClienteNome" id="ClienteNome" placeholder="Digite o nome" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </form>
+                </div>
+            </aside>
+
+            <section class="client-main-area">
+                <h2>Clientes Cadastrados</h2>
+
+                <% if (Clientes && Clientes.length > 0) { %>
+                    <div class="client-grid">
+                        <% Clientes.forEach(cliente => { %>
+                            <div class="client-card">
+                                <div class="client-info">
+                                    <p class="client-name"><%= cliente.ClienteNome %></p>
+                                    <p class="client-detail"><span>ID:</span> <%= cliente.ClienteID %></p>
+                                </div>
+                                <div class="client-actions">
+                                    <a href="#" class="btn btn-edit" onclick="mostrarFormularioEdicao('<%- cliente.ClienteID %>', '<%- cliente.ClienteNome %>')">Editar</a>
+
+                                    <button 
+                                        type="button" 
+                                        onclick="deletarCliente('<%= cliente.ClienteID %>')" 
+                                        class="btn btn-excluir"
+                                    >
+                                        Excluir
+                                    </button>
+                                </div>
+                                <div id="editar-cliente-form" style="display: none;">
+                                                <h2>Editar Cliente</h2>
+                                        <form action="/Cliente/<%= cliente.ClienteID %>?_method=PUT" method="POST">
+                                            <label for="ClienteNome">Nome:</label>
+                                            <input type="text" id="ClienteNome" name="ClienteNome" value="<%= cliente.ClienteNome %>" required>
+                                            <button type="submit">Salvar</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        Nenhum cliente cadastrado no momento.
+                    </div>
+                <% } %>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            &copy; <%= new Date().getFullYear() %> - Sistema de Gestão de Clientes
+        </div>
+    </footer>
+
+    <script>
+        function mostrarFormularioEdicao(ClienteID, ClienteNome) {
+            const form = document.getElementById('editar-cliente-form');
+            form.style.display = 'block';
+            document.getElementById('ClienteNome').value = c=ClienteNome;
+        }
+
+        function deletarCliente(ClienteID) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                fetch(`/Cliente/${ClienteID}`, { method: 'DELETE' })
+                    .then(res => {
+                        if (res.ok) {
+                            alert('Cliente deletado com sucesso!');
+                            window.location.reload();
+                        } else {
+                            return res.text().then(msg => { throw new Error(msg); });
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erro ao deletar cliente:', err);
+                        alert('Erro ao deletar cliente');
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

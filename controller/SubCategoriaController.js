@@ -1,14 +1,15 @@
-const Produto = require('../modules/Produto');
-const Categoria = require('../modules/Categoria');
-const SubCategoria = require('../modules/SubCategoria');
+const Produto = require('../modules/Produto.js');
+const Categoria = require('../modules/Categoria.js');
+const SubCategoria = require('../modules/SubCategoria.js');
 
 module.exports = {
     listarSubCategorias: async (req, res) => {
         try {
             const subCategorias = await SubCategoria.findAll();
             const categorias = await Categoria.findAll();
-            res.status(200).render("subcategoria", {
+            res.status(200).render("subcategorias", {
                 subCategorias: subCategorias,
+
                 categorias: categorias
             });
         } catch (error) {
@@ -26,7 +27,7 @@ module.exports = {
                 SubCategoriaNome: SubCategoriaNome,
                 CategoriaID: CategoriaID
             });
-            res.redirect("/SubCategoria");
+            res.redirect("/subcategorias");
         } catch (error) {
             console.error("Erro ao criar subcategoria:", error);
             res.status(500).send("Erro ao criar subcategoria");
@@ -35,15 +36,15 @@ module.exports = {
 
     editarSubCategoria: async (req, res) => {
         try {
-            let  subCategoriaID  = req.params.id;
+            let  SubCategoriaID  = req.params.id;
             let { SubCategoriaNome} = req.body;
             await SubCategoria.update({
                 SubCategoriaNome
             }, 
             {
-                where: { subCategoriaID: subCategoriaID }
+                where: { SubCategoriaID: SubCategoriaID }
             });
-            res.redirect("/SubCategoria");
+            res.redirect("/subcategorias");
         } catch (error) {
             console.error("Erro ao editar subcategoria:", error);
             res.status(500).send("Erro ao editar subcategoria");
@@ -51,11 +52,11 @@ module.exports = {
     },
     deletarSubCategoria: async (req, res) => {
         try {
-            let { subCategoriaID } = req.params.id;
+            let { SubCategoriaID } = req.params.id;
             await SubCategoria.destroy({
-                where: { subCategoriaID: subCategoriaID }
+                where: { SubCategoriaID: SubCategoriaID }
             });
-            res.redirect("/SubCategoria");
+            res.redirect("/subcategorias");
         } catch (error) {
             console.error("Erro ao deletar subcategoria:", error);
             res.status(500).send("Erro ao deletar subcategoria");

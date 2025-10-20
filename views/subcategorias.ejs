@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubCategorias | Gerenciamento - Mercadinho do Sakamoto</title>
+    <link rel="stylesheet" href="../public/css/style.css"> 
+    
+    <style>
+        /* CSS Básico para simular o layout Amazon-like */
+        body { font-family: Arial, sans-serif; background-color: #f3f3f3; margin: 0; padding: 0; }
+        .header { background-color: #232f3e; color: white; padding: 10px 0; }
+        .nav-bar { background-color: #37475a; color: white; padding: 5px 0; font-size: 14px; }
+        .container { width: 90%; max-width: 1300px; margin: 0 auto; }
+        .logo { font-size: 24px; margin: 0; color: #ff9900; }
+        .nav a { color: white; text-decoration: none; margin-left: 20px; transition: color 0.2s; }
+        .nav a:hover { color: #ff9900; }
+        
+        /* Layout principal do painel */
+        .dashboard-content { display: flex; gap: 20px; padding: 20px 0; }
+        .main-area { flex-grow: 1; }
+        .management-sidebar { width: 350px; min-width: 300px; } 
+        
+        /* Estilos de Cartões/Tabelas */
+        .form-section, .list-section { background-color: white; padding: 20px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
+        .btn-primary { background-color: #ff9900; color: #111; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; transition: opacity 0.2s; }
+        .btn-primary:hover { opacity: 0.9; }
+
+        /* Estilo da Tabela */
+        .table-list { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table-list th, .table-list td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .table-list th { background-color: #f0f0f0; color: #333; font-weight: bold; }
+        .table-list tr:nth-child(even) { background-color: #f9f9f9; }
+        .table-actions a, .table-actions button {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .btn-edit { background-color: #37475a; color: white; }
+        .btn-delete { background-color: #b12704; color: white; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 class="logo">Mercadinho do Sakamoto</h1>
+            <nav class="nav">
+                <a href="/">Dashboard</a>
+                <a href="/vendas">Vendas</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/categorias">Categorias</a>
+                <a href="/subcategorias">SubCategorias</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="nav-bar">
+        <div class="container">
+            <a href="#lista-subcategorias">Listar SubCategorias</a>
+            <a href="#adicionar-subcategoria">Nova SubCategoria</a>
+        </div>
+    </div>
+
+    <main class="container dashboard-content">
+
+        <div class="main-area">
+            <section id="lista-subcategorias" class="list-section">
+                <h2>SubCategorias Cadastradas</h2>
+                
+                <% if (subCategorias && subCategorias.length === 0) { %>
+                    <p class="empty-state">Nenhuma subcategoria cadastrada no momento.</p>
+                <% } else if (subCategorias) { %>
+                    <table class="table-list">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Categoria Principal</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% subCategorias.forEach(sub => { %>
+                                <tr>
+                                    <td><%= sub.SubCategoriaID %></td>
+                                    <td><%= sub.SubCategoriaNome %></td>
+                                    <td>
+                                        <%
+                                             const categoria = categorias.find(c => c.CategoriaID === sub.CategoriaID);
+                                        %>
+                                        <%= categoria ? categoria.CategoriaNome : CategoriaNome %>
+                                    </td>
+                                    <td class="table-actions">
+                                        <a href="/SubCategoria/edit/<%= sub.SubCategoriaID %>" class="btn-edit">Editar</a>
+                                        
+                                        <button class="btn-delete btn-excluir-sub" data-id="<%= sub.SubCategoriaID %>">Excluir</button>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <p>Erro ao carregar dados de subcategorias.</p>
+                <% } %>
+            </section>
+        </div>
+
+        <div class="management-sidebar">
+            
+            <section id="adicionar-subcategoria" class="form-section">
+                <h2>Adicionar Nova SubCategoria</h2>
+                <form action="/SubCategoria/add" method="POST" class="form form-subcategoria">
+                    <div class="form-group">
+                        <label for="SubCategoriaNome">Nome:</label>
+                        <input type="text" name="SubCategoriaNome" placeholder="Ex: Celulares" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="CategoriaID">Categoria Principal:</label>
+                        <select name="CategoriaID" required>
+                            <option value="">-- Selecione --</option>
+                            <% if (categorias) { %>
+                                <% categorias.forEach(Categoria => { %>
+                                    <option value="<%= Categoria.CategoriaID %>"><%= Categoria.CategoriaNome %></option>
+                                <% }) %>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Adicionar SubCategoria</button>
+                </form>
+            </section>
+
+        </div>
+
+    </main>
+    
+    <footer class="footer" style="background-color: #232f3e; color: white; text-align: center; padding: 10px 0; margin-top: 20px;">
+        <p>&copy; <%= new Date().getFullYear() %> Mercadinho do Sakamoto. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const botoesExcluir = document.querySelectorAll('.btn-excluir-sub');
+
+            botoesExcluir.forEach(botao => {
+                botao.addEventListener('click', () => {
+                    const subCategoriaID = botao.getAttribute('data-id');
+                    if (confirm('Tem certeza que deseja excluir esta subcategoria? Esta ação é irreversível.')) {
+                        // Faz a requisição DELETE para a rota de exclusão
+                        fetch(`/SubCategoria/delete/${subCategoriaID}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Redireciona para atualizar a lista
+                                window.location.href = '/subcategorias'; 
+                            } else {
+                                alert('Erro ao excluir a subcategoria. Tente novamente.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro na requisição:', error);
+                            alert('Ocorreu um erro de rede ou servidor.');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

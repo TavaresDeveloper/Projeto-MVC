@@ -1,5 +1,6 @@
 const express = require('express');
 const api = express();
+const methodOverride = require('method-override');
 const produtoRouter = require('./routes/produtoRoutes.js');
 const sequelize = require('./config/database.js');
 const Produto = require('./modules/Produto.js');
@@ -27,6 +28,7 @@ const port = 3000;
  api.use('/Venda', vendaRouter);
  api.use('/Cliente', clienteRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
+ api.use(methodOverride('_method'));
 
 
       try{
@@ -80,9 +82,11 @@ const port = 3000;
   api.get('/subcategorias', async (req, res) => {
      try {
          const subcategorias = await SubCategoria.findAll({raw: true});
+         const categorias = await Categoria.findAll({raw: true});
           
           res.render('subcategorias', {
              title: 'Lista de SubCategorias',
+               categorias: categorias,
              subcategorias: subcategorias
           });
 
@@ -111,10 +115,10 @@ const port = 3000;
 
    api.get('/clientes', async (req, res) => {
        try {
-             const clientes = await Cliente.findAll({raw: true});
-               res.render('clientes', {
+             const Clientes = await Cliente.findAll({raw: true});
+               res.render('Cliente', {
                   title: 'Lista de Clientes',
-                  clientes: clientes
+                  Clientes: Clientes
                });
                
         } catch (error) {

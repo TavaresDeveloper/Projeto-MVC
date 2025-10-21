@@ -37,7 +37,7 @@ const Categoria = require('./Categoria');
 
  Produto.belongsTo(Categoria,{
     foreignKey: 'ProdutoCategoria',
-    as: 'categoria'
+    as: 'categorias'
  });
 
 module.exports = Produto;

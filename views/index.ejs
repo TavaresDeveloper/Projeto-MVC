@@ -124,7 +124,7 @@
                     
                     <div class="form-group">
                         <label for="ProdutoPreco">Preço (R$):</label>
-                        <input type="number" step="0.01" name="ProdutoPreco" placeholder="999.99" required min="0.01">
+                        <input type="text" id = "ProdutoPreco" name="ProdutoPreco" placeholder="1.234,56" required>
                     </div>
                     
                     <div class="form-group">
@@ -211,6 +211,26 @@
                     }
                 });
             });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var precoInput = document.querySelector('input[name="ProdutoPreco"]');
+            if (precoInput && typeof Inputmask !== 'undefined'){
+            var im = new Inputmask('decimal', {
+                radixPoint: ',',
+                groupSeparator: '.',
+                autoGroup: true,
+                digits: 2,
+                digitsOptional: false,
+                prefix: '',
+                placeholder: '0',
+                rightAlign: false,
+                removeMaskOnSubmit: true
+            });
+            im.mask(precoInput);
+            }
         });
     </script>
 </body>

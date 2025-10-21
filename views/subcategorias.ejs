@@ -74,9 +74,9 @@
             <section id="lista-subcategorias" class="list-section">
                 <h2>SubCategorias Cadastradas</h2>
                 
-                <% if (subCategorias && subCategorias.length === 0) { %>
+                <% if (subcategorias && subcategorias.length === 0) { %>
                     <p class="empty-state">Nenhuma subcategoria cadastrada no momento.</p>
-                <% } else if (subCategorias) { %>
+                <% } else if (subcategorias) { %>
                     <table class="table-list">
                         <thead>
                             <tr>
@@ -87,7 +87,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% subCategorias.forEach(sub => { %>
+                            <% subcategorias.forEach(sub => { %>
                                 <tr>
                                     <td><%= sub.SubCategoriaID %></td>
                                     <td><%= sub.SubCategoriaNome %></td>

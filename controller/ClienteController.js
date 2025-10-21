@@ -9,7 +9,7 @@ module.exports = {
             await Cliente.create({
                 ClienteNome
             });
-            res.redirect("/Cliente");
+            res.redirect("/Clientes");
         } catch (error) {
             console.error("Erro ao criar cliente:", error);
             res.status(500).send("Erro ao criar cliente");
@@ -19,7 +19,7 @@ module.exports = {
     listarClientes: async (req, res) => {
         try {
             const Clientes = await Cliente.findAll();
-            res.status(200).render("Cliente", {
+            res.status(200).render("Clientes", {
                 Clientes: Clientes
             });
         } catch (error) {
@@ -31,13 +31,19 @@ module.exports = {
     editarCliente: async (req, res) => {
         try {
         const ClienteID = req.params.id;
-        const cliente = await Cliente.findByPk(ClienteID);
+        const {ClienteNome} = req.body;
 
-        if (!cliente) {
+        if (!ClienteID) {
             return res.status(404).send("Cliente não encontrado");
         }
 
-        res.render('clienteEditar', { cliente });
+         await Cliente.update({
+            ClienteNome: ClienteNome
+        }, {
+            where: { ClienteID: ClienteID }
+        });
+
+        res.redirect('/Clientes', { ClienteID, ClienteNome });
     } catch (error) {
         console.error("Erro ao buscar cliente:", error);
         res.status(500).send("Erro ao buscar cliente");
@@ -50,7 +56,7 @@ module.exports = {
             await Cliente.destroy({
                 where: { ClienteID: ClienteID }
             });
-            res.redirect("/Cliente");
+            res.redirect("/Clientes");
         } catch (error) {
             console.error("Erro ao deletar cliente:", error);
             res.status(500).send("Erro ao deletar cliente");

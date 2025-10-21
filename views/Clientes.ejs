@@ -30,7 +30,7 @@
             <aside class="management-sidebar">
                 <div class="form-section">
                     <h2>Cadastrar Cliente</h2>
-                    <form action="/Cliente/add" method="POST">
+                    <form action="/Clientes/add" method="POST">
                         <div class="form-group">
                             <label for="ClienteNome">Nome do Cliente</label>
                             <input type="text" name="ClienteNome" id="ClienteNome" placeholder="Digite o nome" required>
@@ -64,7 +64,7 @@
                                 </div>
                                 <div id="editar-cliente-form" style="display: none;">
                                                 <h2>Editar Cliente</h2>
-                                        <form action="/Cliente/<%= cliente.ClienteID %>?_method=PUT" method="POST">
+                                        <form action="/Clientes/<%= cliente.ClienteID %>?_method=PUT" method="POST">
                                             <label for="ClienteNome">Nome:</label>
                                             <input type="text" id="ClienteNome" name="ClienteNome" value="<%= cliente.ClienteNome %>" required>
                                             <button type="submit">Salvar</button>
@@ -98,7 +98,7 @@
 
         function deletarCliente(ClienteID) {
             if (confirm('Tem certeza que deseja excluir este cliente?')) {
-                fetch(`/Cliente/${ClienteID}`, { method: 'DELETE' })
+                fetch(`/Clientes/${ClienteID}`, { method: 'DELETE' })
                     .then(res => {
                         if (res.ok) {
                             alert('Cliente deletado com sucesso!');

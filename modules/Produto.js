@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/database.js');
+
 
 const Produto = sequelize.define('Produto', {
 
@@ -29,8 +30,15 @@ const Produto = sequelize.define('Produto', {
     ProdutoCategoria: {
         type: DataTypes.STRING,
         allowNull: false,
-    }
+    },
 });
+
+const Categoria = require('./Categoria');
+
+ Produto.belongsTo(Categoria,{
+    foreignKey: 'ProdutoCategoria',
+    as: 'categoria'
+ });
 
 module.exports = Produto;
 

@@ -22,13 +22,14 @@ const port = 3000;
  api.set('views',__dirname + '/views');
  api.use(express.urlencoded({ extended: true }));
  api.use(express.json());
+ api.use(methodOverride('_method'));
  api.use('/Produto', produtoRouter);
  api.use('/Categoria', categoriaRouter);
  api.use('/SubCategoria', subCategoriaRouter);
  api.use('/Venda', vendaRouter);
- api.use('/Cliente', clienteRouter);
+ api.use('/Clientes', clienteRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
- api.use(methodOverride('_method'));
+
 
 
       try{
@@ -48,7 +49,16 @@ const port = 3000;
  api.get('/', async (req, res) => {
   try {
       const categorias = await Categoria.findAll({raw: true});
-      const produtos = await Produto.findAll({raw: true});
+      const produtos = await Produto.findAll({
+         include: [
+            {
+               model: Categoria,
+               as: 'categoria'
+            }
+         ],
+         raw: true,
+         nest: true
+      });
        
        res.render('index', {
           title: 'Lista de Produtos',

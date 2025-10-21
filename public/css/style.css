@@ -167,23 +167,20 @@ h2 {
 
 /* --- LISTA/GRID DE PRODUTOS --- */
 
-.product-main-area h2 {
-    margin-top: 0;
-}
+/* === AJUSTES DE TAMANHO NO CARD DO PRODUTO === */
 
 .product-grid {
     display: grid;
-    /* 4 colunas em telas grandes, layout flexível */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Reduzido de 250px */
     gap: 20px;
 }
 
 .product-card {
     background-color: #ffffff;
     border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 10px; /* Reduzido */
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -191,54 +188,42 @@ h2 {
 }
 
 .product-card:hover {
-    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+    transform: translateY(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.product-image {
-    width: 100%;
-    height: 180px;
-    object-fit: contain; /* Foco em mostrar a imagem completa, como em e-commerce */
-    border-bottom: 1px solid #eeeeee;
-    margin-bottom: 15px;
-}
-
+.product-image,
 .product-image-placeholder {
-    width: 100%;
-    height: 180px;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    font-size: 14px;
+    width: 50%;
+    height: 60px; /* Reduzido de 180px */
+    object-fit: contain;
     border-bottom: 1px solid #eeeeee;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Reduzido */
 }
 
 .product-info {
     flex-grow: 1;
-    margin-bottom: 10px;
+    margin-bottom: 8px; /* Levemente reduzido */
 }
 
 .product-name {
-    font-size: 15px;
+    font-size: 13px; /* Reduzido */
     font-weight: 600;
     margin: 0 0 5px 0;
-    height: 30px; /* Altura fixa para nomes de duas linhas */
+    height: 26px; /* Reduzido de 30px */
     overflow: hidden;
 }
 
 .product-price {
-    font-size: 20px;
-    color: #b12704; /* Cor de destaque para preço */
-    margin: 5px 0 10px 0;
+    font-size: 16px; /* Reduzido de 20px */
+    color: #b12704;
+    margin: 4px 0 8px 0;
 }
 
 .product-detail {
-    font-size: 13px;
+    font-size: 12px; /* Reduzido */
     color: #555;
-    margin: 3px 0;
+    margin: 2px 0;
 }
 
 .product-detail span {
@@ -250,18 +235,9 @@ h2 {
     display: flex;
     justify-content: space-between;
     gap: 5px;
-    margin-top: auto; /* Empurra as ações para o rodapé do card */
+    margin-top: auto;
 }
 
-.empty-state {
-    text-align: center;
-    padding: 50px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-style: italic;
-    color: #888;
-}
 
 
 /* --- FORMULÁRIOS (SIDEBAR) --- */

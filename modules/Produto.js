@@ -28,8 +28,12 @@ const Produto = sequelize.define('Produto', {
         allowNull: true,
     },
     ProdutoCategoria: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
+        includes: {
+            model: 'Categoria',
+            key: 'CategoriaID'
+        }
     },
 });
 

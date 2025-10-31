@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <title>Lista de Vendedores</title>
+</head>
+<body>
+
+    <nav>
+        <h2>Lista de Vendedores</h2>
+        <a href="/">Início</a>
+        <a href="/Vendedor">Vendedores</a>
+        <a href="/vendas">Vendas</a>
+    </nav>
+     
+    <div class="nav-bar">
+    <form action="" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Vendedor</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (vendedores && vendedores.length > 0) { %>
+                    <% vendedores.forEach(vendedor => { %>
+                        <tr>
+                            <td><%= vendedor.VendedorID %></td>
+                            <td><%= vendedor.Nome %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">Nenhum vendedor encontrado.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+    </form>
+  </div>
+    
+</body>
+</html>

@@ -1,4 +1,4 @@
-const vendedorController = require('../controllers/VendedorController');
+const vendedorController = require('../controller/VendedorController');
 const vendedor = require('../modules/Vendedor');
 const express = require('express');
 const router = express.Router();
@@ -6,3 +6,8 @@ const router = express.Router();
 router.get('/', vendedorController.listarVendedores);
 router.post('/add', vendedorController.criarVendedor);
 router.post('/:id', vendedorController.deletarVendedor);
+
+
+
+
+module.exports = router;

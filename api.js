@@ -43,7 +43,9 @@ const port = 3000;
 
          Categoria.hasMany(Produto, {foreignKey: 'ProdutoCategoria', as: 'produtos'});
          Produto.belongsTo(Categoria, {foreignKey: 'ProdutoCategoria', as: 'categoria'});
-
+          
+         Vendedor.hasMany(Venda, {foreignKey: 'VendedorID', as: 'vendas'});
+         Venda.belongsTo(Vendedor, {foreignKey: 'VendedorID', as: 'dadosVendedor'});
       } catch(error){
          console.error("Erro ao definir associações:", error);
       }

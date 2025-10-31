@@ -13,7 +13,8 @@ const Venda = require('./modules/Vendas.js');
 const vendaRouter = require('./routes/VendaRoutes.js');
 const Cliente = require('./modules/Cliente.js');
 const clienteRouter = require('./routes/ClienteRoutes.js');
-
+const Vendedor = require('./modules/Vendedor.js');
+const VendedorRouter = require('./routes/VendedorRoutes.js');
 const port = 3000;
 
 
@@ -28,6 +29,7 @@ const port = 3000;
  api.use('/SubCategoria', subCategoriaRouter);
  api.use('/Venda', vendaRouter);
  api.use('/Clientes', clienteRouter);
+ api.use('/Vendedor', VendedorRouter);
  api.use('/public', express.static(path.join(__dirname, 'public')));
 
 
@@ -138,8 +140,19 @@ const port = 3000;
            
    });
   
+   api.get('/Vendedor', async (req, res) => {
+       try {
+             const Vendedores = await Vendedor.findAll({raw: true}); 
+               res.render('Vendedor', {
+                  title: 'Lista de Vendedores',
+                  Vendedores: Vendedores
+               });
 
-
+         } catch (error) {
+               console.error("Erro ao listar vendedores:", error);
+               res.status(500).send("Erro ao listar vendedores");
+         };
+   });
 
  sequelize.sync()
       .then(() => {

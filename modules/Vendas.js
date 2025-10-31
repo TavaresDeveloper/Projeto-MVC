@@ -34,7 +34,11 @@ const Vendas = sequelize.define('Vendas', {
     },
     cliente: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: 'Clientes',
+            key: 'ClienteID'
+        }
     },
     vendedor: {
         type: DataTypes.STRING,

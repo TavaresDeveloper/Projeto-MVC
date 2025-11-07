@@ -7,7 +7,7 @@ module.exports = {
     listarVendedores: async (req, res) => {
         try {
             const vendedores = await vendedor.findAll();
-            res.status(200).redirect("/Vendedor", {
+            res.status(200).render("Vendedor", {
                 vendedores: vendedores
             });
         } catch (error) {
@@ -24,7 +24,7 @@ module.exports = {
                 VendedorNome
             });
 
-            res.redirect("/Vendedor");
+            res.redirect("Vendedor");
 
         } catch (error) {
             console.error("Erro ao criar vendedor:", error);
@@ -38,7 +38,7 @@ module.exports = {
             await vendedor.destroy({
                 where: { VendedorID: VendedorID }
             });
-            res.redirect("/Vendedor");
+            res.redirect("Vendedor");
         } catch (error) {
             console.error("Erro ao deletar vendedor:", error);
             res.status(500).send("Erro ao deletar vendedor");

@@ -3,45 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/style.css">
-    <title>Lista de Vendedores</title>
+    <link rel="stylesheet" href="../public/css/style.css"> 
+    <title>Gestão de Vendedores</title>
+    
+    <style>
+        /* CSS BÁSICO PARA REPLICAR O LAYOUT "GESTÃO DE CLIENTES" */
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; }
+        
+        /* 1. Barra Superior (Header) */
+        .header-top { 
+            background-color: #232f3e; 
+            color: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header-top h1 { 
+            font-size: 24px; 
+            margin: 0; 
+            color: #ff9900; /* Laranja para o título principal */
+        }
+        .header-nav-main a { 
+            color: white; 
+            text-decoration: none; 
+            margin-left: 25px; 
+            font-size: 16px; 
+        }
+
+        /* 2. Barra de Navegação Secundária (Sub-nav) */
+        .sub-nav {
+            background-color: #f9f9f9;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .sub-nav a {
+            color: #333;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .sub-nav a.active {
+            color: #ff9900;
+        }
+
+        /* 3. Layout de Conteúdo (Duas Colunas) */
+        .content-wrapper {
+            display: flex;
+            padding: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Coluna da Esquerda: Formulário de Cadastro */
+        .form-column {
+            width: 350px;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        .form-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .form-card h2 {
+            font-size: 18px;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        .btn-cadastrar {
+            background-color: #ff9900; /* Laranja do botão */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 3px;
+        }
+        .btn-cadastrar:hover {
+            opacity: 0.9;
+        }
+
+        /* Coluna da Direita: Lista de Conteúdo */
+        .list-column {
+            flex-grow: 1;
+        }
+        .list-column h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ff9900; /* Linha Laranja */
+            margin-bottom: 20px;
+        }
+        .empty-message {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Estilo da Tabela de Vendedores */
+        .vendedor-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .vendedor-table th, .vendedor-table td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd; 
+        }
+        .vendedor-table th {
+            background-color: #eee;
+            color: #333;
+            font-size: 14px;
+        }
+        .vendedor-table tr:hover { background-color: #f9f9f9; }
+        .action-button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .btn-edit { background-color: #37475a; color: white; }
+        .btn-delete { background-color: #b12704; color: white; }
+
+        /* Rodapé */
+        .footer {
+            background-color: #232f3e;
+            color: #ccc;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 12px;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
 
-    <nav>
-        <h2>Lista de Vendedores</h2>
-        <a href="/">Início</a>
-        <a href="/Vendedor">Vendedores</a>
-        <a href="/vendas">Vendas</a>
-    </nav>
-     
-    <div class="nav-bar">
-    <form action="" method="post">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID Vendedor</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (vendedores && vendedores.length > 0) { %>
-                    <% vendedores.forEach(vendedor => { %>
-                        <tr>
-                            <td><%= vendedor.VendedorID %></td>
-                            <td><%= vendedor.Nome %></td>
-                        </tr>
-                    <% }) %>
-                <% } else { %>
-                    <tr>
-                        <td colspan="4">Nenhum vendedor encontrado.</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
+    <div class="header-top">
+        <h1>Gestão de Vendedores</h1>
+        <nav class="header-nav-main">
+            <a href="/">Início</a>
+            <a href="/Clientes">Clientes</a>
+            <a href="/Produtos">Produtos</a>
+        </nav>
+    </div>
 
-    </form>
-  </div>
+    <div class="sub-nav">
+        <a href="/Vendedor" class="active">Listar Vendedores</a>
+        <a href="/Vendedor/novo">Cadastrar Novo</a>
+    </div>
+     
+    <div class="content-wrapper">
+        
+        <div class="form-column">
+            <div class="form-card">
+                <h2>Cadastrar Vendedor</h2>
+                
+                <form action="/Vendedor/criar" method="post">
+                    
+                    <div class="form-group">
+                        <label for="VendedorNome">Nome do Vendedor</label>
+                        <input type="text" id="VendedorNome" name="VendedorNome" placeholder="Digite o nome" required>
+                    </div>
+
+                    <button type="submit" class="btn-cadastrar">CADASTRAR</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="list-column">
+            <h2 class="list-title">Vendedores Cadastrados</h2>
+            
+            <% if (vendedores && vendedores.length > 0) { %>
+                <table class="vendedor-table">
+                    <thead>
+                        <tr>
+                            <th>VendedorID</th>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% vendedores.forEach(vendedor => { %>
+                            <tr>
+                                <td><%= vendedor.VendedorID %></td>
+                                <td><%= vendedor.VendedorNome %></td>
+                                <td>
+                                    <button class="action-button btn-edit">Editar</button>
+                                    
+                                    <form action="/Vendedor/deletar/<%= vendedor.VendedorID %>?_method=DELETE" method="POST" style="display: inline;">
+                                        <button type="submit" class="action-button btn-delete">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="empty-message">Nenhum vendedor cadastrado no momento.</p>
+            <% } %>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2025 - Sistema de Gestão de Vendas
+    </div>
     
 </body>
 </html>
